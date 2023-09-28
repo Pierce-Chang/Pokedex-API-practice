@@ -8,6 +8,20 @@ body {
     background-color: #FB6C6C;
     color: white;
     display: flex;
+    flex-direction: column;
+}
+
+.back-arrow {
+    height: 40px;
+    width: 40px;
+    filter: invert();
+    padding-top: 60px;
+    padding-left: 30px;
+}
+
+#pokemonName {
+    padding-left: 30px;
+    font-size: 40px;
 }
 
 #infoContainer {
@@ -21,7 +35,7 @@ body {
 }
 
 #infoContainer img {
-    margin-top: -120px;
-    height: 200px;
-    width: 200px;
+    margin-top: -250px;
+    height: 300px;
+    aspect-ratio: 1 / 1;
 }
