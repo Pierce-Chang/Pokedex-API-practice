@@ -1,7 +1,7 @@
 let currentPokemon;
 
 async function loadPokemon() {
-    for (let i = 1; i <= 30; i++) {
+    for (let i = 1; i <= 90; i++) {
         let url = `https://pokeapi.co/api/v2/pokemon/${i}`;
         let response = await fetch(url);
         currentPokemon = await response.json();
@@ -15,12 +15,14 @@ async function renderOverview(i) {
     document.getElementById('overview').innerHTML += `
     <div class="pokemonCard">
 
-        <section id="pokedex">
+        <section class="${currentPokemon['types']['0']['type']['name']}" id="pokedex">
             <img class="back-arrow" src="img/arrow-left.png" alt="arrow-left">
             <div class="dp">
                 <div>
                     <h1 class="pokemonName">${currentPokemon['name']}</h1>
-                    <p class="pokemonType">${currentPokemon['types']['0']['type']['name']}</p>
+                    <div class="name-type" id="name-type${i}">
+                    
+                    </div>
                 </div>
                 <div class="pokemon-id">
                     <p>${formatPokemonId(currentPokemon['id'])}</p>
@@ -91,6 +93,7 @@ async function renderOverview(i) {
         </section>
     </div>
     `;
+    renderTypes(i);
     formatAbilities(i);
 }
 
@@ -106,6 +109,19 @@ function formatAbilities(i) {
     abilitiesString = abilitiesString.replace(/,\s*$/, ''); // Remove the trailing comma and any whitespace
 
     abilitiesElement.innerHTML = abilitiesString;
+}
+
+function renderTypes(i) {
+    const typesDiv = document.getElementById(`name-type${i}`);
+    typesDiv.innerHTML = '';
+
+    for (let j = 0; j < currentPokemon['types'].length; j++) {
+        const typeName = currentPokemon['types'][j]['type']['name'];
+        const typeElementP = document.createElement('p');
+        typeElementP.textContent = typeName;
+        typeElementP.classList.add('pokemonType'); // Füge die Klasse 'pokemonType' hinzu
+        typesDiv.appendChild(typeElementP);
+    }
 }
 
 function formatPokemonId(id) {
