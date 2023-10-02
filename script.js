@@ -54,11 +54,11 @@ async function renderOverview(i) {
                   </ul>
                   <ul class="list-group list-group-horizontal">
                     <li class="list-group-item disabled">Abilities</li>
-                    <li class="list-group-item" id="pokemonAbilities"></li>
+                    <li class="list-group-item" id="pokemonAbilities${i}">${currentPokemon['abilities'][0]['ability']['name']}</li>
                   </ul>
               </div>
     
-              <div class="pokemonInformation-Basestats d-none" id='pokemonInformation-Basestats${i}'
+              <div class="pokemonInformation-Basestats d-none" id='pokemonInformation-Basestats${i}'>
                 <ul class="list-group list-group-horizontal">
                     <li class="list-group-item disabled">HP</li>
                     <li class="list-group-item" id="pokemonHP">${JSON.parse(currentPokemon['stats']['0']['base_stat'])}</li>
@@ -91,16 +91,21 @@ async function renderOverview(i) {
         </section>
     </div>
     `;
+    formatAbilities(i);
 }
 
 
-function renderPokemonInfo() {
-    document.getElementById('pokemonAbilities').innerHTML = '';
+function formatAbilities(i) {
+    const abilitiesElement = document.getElementById(`pokemonAbilities${i}`);
+    let abilitiesString = '';
+
     for (let j = 0; j < currentPokemon['abilities'].length; j++) {
-        document.getElementById('pokemonAbilities').innerHTML += currentPokemon['abilities'][j]['ability']['name'] + ', ';
+        abilitiesString += currentPokemon['abilities'][j]['ability']['name'] + ', ';
     }
-    let abilitiesComma = document.getElementById('pokemonAbilities');
-    abilitiesComma.innerHTML = abilitiesComma.innerHTML.replace(/,\s*$/, '');
+
+    abilitiesString = abilitiesString.replace(/,\s*$/, ''); // Remove the trailing comma and any whitespace
+
+    abilitiesElement.innerHTML = abilitiesString;
 }
 
 function formatPokemonId(id) {
