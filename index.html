@@ -18,85 +18,11 @@
 </head>
 
 <body onload="loadPokemon()">
-    <div class="pokemonCard">
-<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
-    <div id="pokedex">
-        <img class="back-arrow" src="img/arrow-left.png" alt="arrow-left">
-        <div class="dp">
-            <div>
-                <h1 id="pokemonName">Name</h1>
-                <p id="pokemonType">Type</p>
-            </div>
-            <div class="pokemon-id">
-                <p id="pokemonId">Index</p>
-            </div>
-        </div>
-        <img id="pokemonImage">
-    </div>
-<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
-    <div id="infoContainer">
-        <!-- Navbar -->
-        <ul class="nav nav-underline justify-content-around">
-            <li class="nav-item">
-              <a id="about" class="nav-link active" onclick="displayAbout()">About</a>
-            </li>
-            <li class="nav-item">
-              <a id="baseStats" class="nav-link" onclick="displayBaseStats()">Base Stats</a>
-            </li>
-          </ul>
-
-          <div id="pokemonInformation-About">
-            <ul class="list-group list-group-horizontal">
-                <li class="list-group-item disabled">Species</li>
-                <li class="list-group-item" id="pokemonSpecies">A second item</li>
-              </ul>
-              <ul class="list-group list-group-horizontal">
-                <li class="list-group-item disabled">Height</li>
-                <li class="list-group-item" id="pokemonHeight">A second item</li>
-              </ul>
-              <ul class="list-group list-group-horizontal">
-                <li class="list-group-item disabled">Weight</li>
-                <li class="list-group-item" id="pokemonWeight">A second item</li>
-              </ul>
-              <ul class="list-group list-group-horizontal">
-                <li class="list-group-item disabled">Abilities</li>
-                <li class="list-group-item" id="pokemonAbilities">A second item</li>
-              </ul>
-          </div>
-
-          <div id="pokemonInformation-Basestats" class="d-none">
-            <ul class="list-group list-group-horizontal">
-                <li class="list-group-item disabled">HP</li>
-                <li class="list-group-item" id="pokemonHP">A second item</li>
-              </ul>
-              <ul class="list-group list-group-horizontal">
-                <li class="list-group-item disabled">Attack</li>
-                <li class="list-group-item" id="pokemonAttack">A second item</li>
-              </ul>
-              <ul class="list-group list-group-horizontal">
-                <li class="list-group-item disabled">Defense</li>
-                <li class="list-group-item" id="pokemonDefense">A second item</li>
-              </ul>
-              <ul class="list-group list-group-horizontal">
-                <li class="list-group-item disabled">Sp. Atk</li>
-                <li class="list-group-item" id="pokemonSpAtk">A second item</li>
-              </ul>
-              <ul class="list-group list-group-horizontal">
-                <li class="list-group-item disabled">Sp. Def</li>
-                <li class="list-group-item" id="pokemonSpDef">A second item</li>
-              </ul>
-              <ul class="list-group list-group-horizontal">
-                <li class="list-group-item disabled">Speed</li>
-                <li class="list-group-item" id="pokemonSpeed">A second item</li>
-              </ul>
-              <ul class="list-group list-group-horizontal">
-                <li class="list-group-item disabled">Total</li>
-                <li class="list-group-item" id="pokemonTotal">A second item</li>
-              </ul>
-          </div>
-    </div>
-</div>
-<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+  
+    <section class="init-container">
+        <h1 style="font-size: 80px; padding-left: 30px;font-weight: 700;text-align: center;">Pokedex</h1>
+        <div id="overview"></div>
+    </section>
 </body>
 
 </html>

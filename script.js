@@ -1,33 +1,103 @@
 let currentPokemon;
 
 async function loadPokemon() {
-    let url = 'https://pokeapi.co/api/v2/pokemon/charmander';
-    let response = await fetch(url);
-    currentPokemon = await response.json();
-    console.log('Loaded Pokemon', currentPokemon)
-
-    renderPokemonInfo();
+    for (let i = 1; i <= 30; i++) {
+        let url = `https://pokeapi.co/api/v2/pokemon/${i}`;
+        let response = await fetch(url);
+        currentPokemon = await response.json();
+        console.log("Loaded Pokemon", currentPokemon);
+        await renderOverview(i);
+    }
 }
 
-function renderPokemonInfo() {
-    document.getElementById('pokemonName').innerHTML = currentPokemon['name'];
-    document.getElementById('pokemonType').innerHTML = currentPokemon['types']['0']['type']['name'];
-    document.getElementById('pokemonId').innerHTML = formatPokemonId(currentPokemon['id']);;
-    document.getElementById('pokemonImage').src = currentPokemon['sprites']['other']['official-artwork']['front_default'];
-    document.getElementById('pokemonSpecies').innerHTML = currentPokemon['types']['0']['type']['name'];
-    document.getElementById('pokemonHeight').innerHTML = JSON.parse(currentPokemon['height']) + '"';
-    document.getElementById('pokemonWeight').innerHTML = JSON.parse(currentPokemon['weight']) + ' lbs';
-    document.getElementById('pokemonHP').innerHTML = JSON.parse(currentPokemon['stats']['0']['base_stat']);
-    document.getElementById('pokemonAttack').innerHTML = JSON.parse(currentPokemon['stats']['1']['base_stat']);
-    document.getElementById('pokemonDefense').innerHTML = JSON.parse(currentPokemon['stats']['2']['base_stat']);
-    document.getElementById('pokemonSpAtk').innerHTML = JSON.parse(currentPokemon['stats']['3']['base_stat']);
-    document.getElementById('pokemonSpDef').innerHTML = JSON.parse(currentPokemon['stats']['4']['base_stat']);
-    document.getElementById('pokemonSpeed').innerHTML = JSON.parse(currentPokemon['stats']['5']['base_stat']);
-    document.getElementById('pokemonTotal').innerHTML = JSON.parse(calculateTotalStats());
 
+async function renderOverview(i) {
+    document.getElementById('overview').innerHTML += `
+    <div class="pokemonCard">
+
+        <section id="pokedex">
+            <img class="back-arrow" src="img/arrow-left.png" alt="arrow-left">
+            <div class="dp">
+                <div>
+                    <h1 class="pokemonName">${currentPokemon['name']}</h1>
+                    <p class="pokemonType">${currentPokemon['types']['0']['type']['name']}</p>
+                </div>
+                <div class="pokemon-id">
+                    <p>${formatPokemonId(currentPokemon['id'])}</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="infoContainer">
+        <img class="pokemonImage" src="${currentPokemon['sprites']['other']['official-artwork']['front_default']}">
+            <ul class="nav nav-underline justify-content-around">
+                <li class="nav-item">
+                  <a id='about${i}' class="nav-link active" onclick="displayAbout(${i})">About</a>
+                </li>
+                <li class="nav-item">
+                  <a id='baseStats${i}' class="nav-link" onclick="displayBaseStats(${i})">Base Stats</a>
+                </li>
+              </ul>
+    
+              <div class="pokemonInformation-About" id='pokemonInformation-About${i}'>
+                <ul class="list-group list-group-horizontal">
+                    <li class="list-group-item disabled">Species</li>
+                    <li class="list-group-item" id="pokemonSpecies">${currentPokemon['types']['0']['type']['name']}</li>
+                  </ul>
+                  <ul class="list-group list-group-horizontal">
+                    <li class="list-group-item disabled">Height</li>
+                    <li class="list-group-item" id="pokemonHeight">${JSON.parse(currentPokemon['height']) + '"'}</li>
+                  </ul>
+                  <ul class="list-group list-group-horizontal">
+                    <li class="list-group-item disabled">Weight</li>
+                    <li class="list-group-item" id="pokemonWeight">${JSON.parse(currentPokemon['weight']) + ' lbs'}</li>
+                  </ul>
+                  <ul class="list-group list-group-horizontal">
+                    <li class="list-group-item disabled">Abilities</li>
+                    <li class="list-group-item" id="pokemonAbilities"></li>
+                  </ul>
+              </div>
+    
+              <div class="pokemonInformation-Basestats d-none" id='pokemonInformation-Basestats${i}'
+                <ul class="list-group list-group-horizontal">
+                    <li class="list-group-item disabled">HP</li>
+                    <li class="list-group-item" id="pokemonHP">${JSON.parse(currentPokemon['stats']['0']['base_stat'])}</li>
+                  </ul>
+                  <ul class="list-group list-group-horizontal">
+                    <li class="list-group-item disabled">Attack</li>
+                    <li class="list-group-item" id="pokemonAttack">${JSON.parse(currentPokemon['stats']['1']['base_stat'])}</li>
+                  </ul>
+                  <ul class="list-group list-group-horizontal">
+                    <li class="list-group-item disabled">Defense</li>
+                    <li class="list-group-item" id="pokemonDefense">${JSON.parse(currentPokemon['stats']['2']['base_stat'])}</li>
+                  </ul>
+                  <ul class="list-group list-group-horizontal">
+                    <li class="list-group-item disabled">Sp. Atk</li>
+                    <li class="list-group-item" id="pokemonSpAtk">${JSON.parse(currentPokemon['stats']['3']['base_stat'])}</li>
+                  </ul>
+                  <ul class="list-group list-group-horizontal">
+                    <li class="list-group-item disabled">Sp. Def</li>
+                    <li class="list-group-item" id="pokemonSpDef">${JSON.parse(currentPokemon['stats']['4']['base_stat'])}</li>
+                  </ul>
+                  <ul class="list-group list-group-horizontal">
+                    <li class="list-group-item disabled">Speed</li>
+                    <li class="list-group-item" id="pokemonSpeed">${JSON.parse(currentPokemon['stats']['5']['base_stat'])}</li>
+                  </ul>
+                  <ul class="list-group list-group-horizontal">
+                    <li class="list-group-item disabled">Total</li>
+                    <li class="list-group-item" id="pokemonTotal">${JSON.parse(calculateTotalStats())}</li>
+                  </ul>
+              </div>
+        </section>
+    </div>
+    `;
+}
+
+
+function renderPokemonInfo() {
     document.getElementById('pokemonAbilities').innerHTML = '';
-    for (let i = 0; i < currentPokemon['abilities'].length; i++) {
-        document.getElementById('pokemonAbilities').innerHTML += currentPokemon['abilities'][i]['ability']['name'] + ', ';
+    for (let j = 0; j < currentPokemon['abilities'].length; j++) {
+        document.getElementById('pokemonAbilities').innerHTML += currentPokemon['abilities'][j]['ability']['name'] + ', ';
     }
     let abilitiesComma = document.getElementById('pokemonAbilities');
     abilitiesComma.innerHTML = abilitiesComma.innerHTML.replace(/,\s*$/, '');
@@ -49,18 +119,18 @@ function calculateTotalStats() {
     return (totalStat);
 }
 
-function displayAbout() {
-    document.getElementById('pokemonInformation-Basestats').classList.add('d-none');
-    document.getElementById('pokemonInformation-About').classList.remove('d-none');
-    document.getElementById('about').classList.add('active');
-    document.getElementById('about').classList.remove('inactive');
-    document.getElementById('baseStats').classList.remove('active');
+function displayAbout(i) {
+    document.getElementById(`pokemonInformation-Basestats${i}`).classList.add('d-none');
+    document.getElementById(`pokemonInformation-About${i}`).classList.remove('d-none');
+    document.getElementById(`about${i}`).classList.add('active');
+    document.getElementById(`about${i}`).classList.remove('inactive');
+    document.getElementById(`baseStats${i}`).classList.remove('active');
 }
 
-function displayBaseStats() {
-    document.getElementById('pokemonInformation-Basestats').classList.remove('d-none');
-    document.getElementById('pokemonInformation-About').classList.add('d-none');
-    document.getElementById('baseStats').classList.add('active');
-    document.getElementById('baseStats').classList.remove('inactive');
-    document.getElementById('about').classList.remove('active');
+function displayBaseStats(i) {
+    document.getElementById(`pokemonInformation-Basestats${i}`).classList.remove('d-none');
+    document.getElementById(`pokemonInformation-About${i}`).classList.add('d-none');
+    document.getElementById(`baseStats${i}`).classList.add('active');
+    document.getElementById(`baseStats${i}`).classList.remove('inactive');
+    document.getElementById(`about${i}`).classList.remove('active');
 }
