@@ -1,15 +1,33 @@
 let currentPokemon;
+let currentIndex = 1;
+let isLoading = false;
+const pokemonPerBatch = 8;
 
-async function loadPokemon() {
-    for (let i = 1; i <= 151; i++) {
+
+async function loadPokemonBatch() {
+  if (isLoading) return;
+  isLoading = true;
+    let maxIndex = currentIndex + pokemonPerBatch;
+    for (let i = currentIndex; i < maxIndex && i <= 151; i++) {
         let url = `https://pokeapi.co/api/v2/pokemon/${i}`;
         let response = await fetch(url);
         currentPokemon = await response.json();
         console.log("Loaded Pokemon", currentPokemon);
         await renderOverview(i);
     }
+    currentIndex += pokemonPerBatch;
+    isLoading = false;
 }
 
+function checkScrollPosition() {
+  window.onscroll = function() {
+      if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+          loadPokemonBatch();
+      }
+  };
+}
+
+checkScrollPosition();
 
 async function renderOverview(i) {
     document.getElementById('overview').innerHTML += `
